@@ -7,8 +7,6 @@
 using namespace std;
 int main()
 {	
-	//string s = "12344433";
-	//PrintChar(s.c_str(), s.size(), 0, 0);
 	ChessBoard cb;
 	snake s(cb);	
 	return 0;
