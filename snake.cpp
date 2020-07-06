@@ -1,18 +1,18 @@
-﻿#include<iostream>
+#include<iostream>
 #include<string>
 #include"ChessBoard.h"
 #include "snake.h"
 #include<conio.h>
 #include<ctime>
 using namespace std;
-void PrintChar(const char* ch, UINT count, UINT x, UINT y) //锟斤拷锟斤拷锟斤拷(x,y)锟斤拷锟斤拷锟斤拷址锟斤拷锟絚h,ch锟斤拷锟斤拷count锟斤拷锟街凤拷
+void PrintChar(const char* ch, UINT count, UINT x, UINT y) //ch是要打印的字符,count是长度,x,y是控制台坐标
 {
 	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD pos;
 	ULONG unuse;
 	pos.X = x;
 	pos.Y = y;
-	CONSOLE_SCREEN_BUFFER_INFO bInfo; // 锟斤拷锟节伙拷锟斤拷锟斤拷锟斤拷du息
+	CONSOLE_SCREEN_BUFFER_INFO bInfo;
 	GetConsoleScreenBufferInfo(h, &bInfo);
 	WriteConsoleOutputCharacterA(h, ch, count, pos, &unuse);
 }
@@ -26,14 +26,14 @@ void snake::move(ChessBoard&cb)
 		headDirect.push_back(head==0?3:headDirect[head-1]);
 		long start = clock();
 		int tmpDirect = 0;
-		while ((clock() - start <= speed)) {//锟饺达拷锟斤拷锟斤拷应锟斤拷锟斤拷
+		while ((clock() - start <= speed)) {
 			if (_kbhit()) {
 				tmpDirect = _getch();
 			}
 		}
 		//cout <<"tmpDirec: "<< tmpDirect << endl;
 		if(head!=0)
-		switch (tmpDirect) {//锟叫讹拷锟斤拷锟斤拷锟斤拷为锟剿凤拷止180锟斤拷转锟斤拷
+		switch (tmpDirect) {//防止180°转弯
 		case 72:
 			if (headDirect[head-1] != 1)headDirect[head] = 0;
 			break;//up
@@ -87,7 +87,7 @@ void snake::move(ChessBoard&cb)
 			}
 			++head;
 		}
-		else {//撞墙锟斤拷锟斤拷锟斤拷锟斤拷锟皆硷拷锟酵斤拷锟斤拷			
+		else {
 			PrintChar("GAME OVER", 11, 16, 13);
 			PrintChar("                  ", 18, 12, 14);
 			PrintChar("PLAY AGAIN? Y OR N", 18, 12, 15);
