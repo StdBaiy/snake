@@ -3,6 +3,7 @@
 #include<cstdio>
 #include"ChessBoard.h"
 #include<vector>
+#include<deque>
 using namespace std;
 
 extern void PrintChar(const char* ch, UINT count, UINT x, UINT y);
@@ -18,6 +19,7 @@ private:
 	vector<int> headDirect;
 	void move(ChessBoard&cb);
 	int speed,MaxSpeed;
+	deque<pair<int, int>>snakeBody;
 public:
 	snake(ChessBoard&cb);
 	void reload();

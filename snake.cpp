@@ -1,4 +1,4 @@
-#include<iostream>
+﻿#include<iostream>
 #include<string>
 #include"ChessBoard.h"
 #include "snake.h"
@@ -21,7 +21,7 @@ void snake::move(ChessBoard&cb)
 {
 	MaxSpeed = 120;
 	cb.newGame();
-	int head = 0,tail=head-3;
+	int head = 0;
 	while (true) {
 		headDirect.push_back(head==0?3:headDirect[head-1]);
 		long start = clock();
@@ -54,6 +54,7 @@ void snake::move(ChessBoard&cb)
 		if (cb.board[headX][headY]!='#'&&
 			cb.board[headX][headY] != '*') {						
 			cb.board[headX][headY] = '*';
+			snakeBody.push_back({ headX,headY });
 			PrintChar("* ", 2, headY * 2, headX + 4);
 			bool flagT = false,flagH=false;
 			int tmpFood;
@@ -61,7 +62,7 @@ void snake::move(ChessBoard&cb)
 				if (cb.foodX[j] == headX && cb.foodY[j] == headY) {
 					flagH = true;
 				}
-				if (cb.foodX[j] == tailX && cb.foodY[j] == tailY) {
+				if (cb.foodX[j] == snakeBody.front().first && cb.foodY[j] == snakeBody.front().second) {
 					flagT = true;
 					tmpFood = j;
 				}
@@ -79,11 +80,9 @@ void snake::move(ChessBoard&cb)
 				continue;
 			}
 			else {
-				cb.board[tailX][tailY] = ' ';
-				PrintChar("  ", 2, tailY * 2, tailX + 4);
-				tailX += direction[(tail < 0) ? 3 : headDirect[tail]][0];
-				tailY += direction[(tail < 0) ? 3 : headDirect[tail]][1];
-				++tail;
+				cb.board[snakeBody.front().first][snakeBody.front().second] = ' ';
+				PrintChar("  ", 2, snakeBody.front().second * 2, snakeBody.front().first + 4);
+				snakeBody.pop_front();
 			}
 			++head;
 		}
@@ -110,24 +109,22 @@ void snake::move(ChessBoard&cb)
 
 snake::snake(ChessBoard&cb)
 {
-	headX=3;
-	headY=5;
-	tailX=3;
-	tailY=2;
-	length=4;	
-	speed = 250;
+	reload();
 	move(cb);
+	
 }
 
 void snake::reload()
 {
 	headX = 3;
 	headY = 5;
-	tailX = 3;
-	tailY = 2;
 	length = 4;
 	speed = 250;
 	headDirect.clear();
+	snakeBody.clear();
+	for (int i = 0; i != 4; ++i) {
+		snakeBody.push_back({ 3,i + 2 });
+	}
 }
 
 
